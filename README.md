@@ -14,7 +14,6 @@ Or you can set up a flake and `.direnv` that references this:
 
 #### flake.nix
 ```nix
-{ ... }:
 {
     inputs = {
         sevenlangs.url = "github:jcdickinson/7langs";
@@ -26,12 +25,10 @@ Or you can set up a flake and `.direnv` that references this:
         flake-utils,
         ...
     }: flake-utils.lib.eachDefaultSystem (system: let
-        shells = import sevenlangs.devShells {
-        inherit system;
-    };
+        language = "ruby";
     in {
-        devShells.default = shells.<LANG>;
-    };
+        devShells.default = sevenlangs.devShells.${system}.${language};
+    });
 }
 ```
 
